@@ -217,6 +217,6 @@ void* PassengerBusqueda(LinkedList *pArrayListPassenger, int idABuscar);
  * @param lecturaDeDato
  */
 void PassengerLista(Passenger *lecturaDeDato);
-
+int Passenger_compararNombre(void* nombreUno, void* nombreDos);
 
 #endif /* PASSENGER_H_ */

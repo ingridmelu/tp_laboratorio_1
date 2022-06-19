@@ -18,15 +18,15 @@
     10. Salir
 *****************************************************/
 
-
-
 int main()
 {
     int option = 0;
     int bandera = 0;
     int flagSave = 0;
+    int validar;
     setbuf(stdout, NULL);
 
+    LinkedList* clonArrays = ll_newLinkedList();
 
     LinkedList* listaPasajeros = ll_newLinkedList();
     do{
@@ -42,7 +42,9 @@ int main()
 				"7. Ordenar pasajeros.\n"
 				"8. Guardar los datos de los pasajeros en el archivo data.csv (modo texto).\n"
 				"9. Guardar los datos de los pasajeros en el archivo data.csv (modo binario).\n"
-				"10. Salir.\n");
+    			"10. Cargar bcopia de seguridad.\n"
+    			"11. Guardar copia de seguridad.\n"
+				"12. Salir.\n");
     	scanf("%d", &option);
     	fflush(stdin);
         switch(option)
@@ -62,7 +64,7 @@ int main()
             case 4:
             	if(bandera == 0)
             	{
-            		printf("Primero ingrese datos");
+            		printf("Primero ingrese datos\n");
             	}
             	else
             	{
@@ -72,7 +74,7 @@ int main()
             case 5:
             	if(bandera == 0)
             	{
-            		printf("Primero ingrese datos");
+            		printf("Primero ingrese datos\n");
 
             	}
             	else
@@ -83,7 +85,7 @@ int main()
             case 6:
             	if(bandera == 0)
             	{
-            		printf("Primero ingrese datos");
+            		printf("Primero ingrese datos\n");
             	}
             	else
             	{
@@ -93,7 +95,7 @@ int main()
             case 7:
             	if(bandera == 0)
             	{
-            		printf("Primero ingrese datos");
+            		printf("Primero ingrese datos\n");
             	}
             	else
             	{
@@ -103,18 +105,20 @@ int main()
             case 8:
             	if(bandera == 0)
             	{
-            		printf("Primero ingrese datos");
+            		printf("Primero ingrese datos\n");
+
             	}
             	else
             	{
             		controller_saveAsText("dataguardado.csv", listaPasajeros);
+            		printf("Los datos fueron guardados correctamente\n");
             		flagSave = 1;
             	}
             	break;
             case 9:
             	if(bandera == 0)
             	{
-            		printf("Primero ingrese datos");
+            		printf("Primero ingrese datos\n");
             	}
             	else
             	{
@@ -123,12 +127,64 @@ int main()
             	}
             	break;
             case 10:
-            	printf("Muchas gracias, hasta luego.");
+            	if(ll_isEmpty(listaPasajeros))
+            	{
+            		validar = controller_loadFromText("copiadesegurida.csv", listaPasajeros);
+
+            		if(validar != 1)
+            		{
+            			printf("Datos cargados corectamente. \n");
+            			ll_sort(listaPasajeros, Passenger_compararNombre, 1);
+                    	break;
+            		}
+            		else
+            		{
+            			printf("No se puedieron cargar los datos. \n");
+                    	break;
+            		}
+            	}
+            	else
+            	{
+            		printf("Los datos ya fueron cargados.\n");
+                	break;
+            	}
+            	flagSave = 1;
+            	break;
+            case 11:
+            	clonArrays = ll_clone(listaPasajeros);
+
+				validar = controller_saveAsText("copiadesegurida.csv", clonArrays);
+
+				if(ll_contains(listaPasajeros, clonArrays))
+				{
+
+				}
+				if(validar == 1)
+				{
+					printf("Se reliazo con exito la copia de seguridad.\n");
+	            	break;
+				}
+				else
+				{
+					printf("No se a podido realizar la copia de segurida. \n");
+	            	break;
+				}
+            	break;
+            case 12:
+            	if(flagSave == 1)
+            	{
+            		printf("Muchas gracias, hasta luego.\n");
+            	}
+            	else
+            	{
+            			printf("Error, Opcion Incorrecta\n");
+            	}
             	break;
             default:
-            	printf("Error, Opcion Incorrecta");
+            	printf("Numero incorrecto.\n");
+            	break;
         }
-    }while(option != 10);
+    }while(option != 12);
     return 0;
 }
 

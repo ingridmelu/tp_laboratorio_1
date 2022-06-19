@@ -2,7 +2,7 @@
  * Passenger.c
  *
  *  Created on: 19 may. 2022
- *      Author: Maru
+ *      Author: Romero Melany
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -279,7 +279,7 @@ void* PassengerBusqueda(LinkedList *pArrayListPassenger, int idABuscar)
 	if (idBuscadas->id != idABuscar)
 	{
 		idBuscadas = NULL;
-		printf("¡¡¡¡¡ERROR!!!!!");
+		printf("¡¡¡¡¡ERROR!!!!!\n");
 	}
 	return idBuscadas;
 }
@@ -318,4 +318,37 @@ void PassengerLista(Passenger *lecturaDeDato)
 	}
 
 }
+int Passenger_compararNombre(void* nombreUno, void* nombreDos)
+{
+	int validacion;
+	char auxNombreUno[50];
+	char auxNombreDos[50];
+
+	Passenger* nombrePasajeroUno;
+	Passenger* nombrePasajeroDos;
+
+	nombrePasajeroUno = (Passenger*) nombreUno;
+	nombrePasajeroDos = (Passenger*) nombreDos;
+
+	Passenger_getNombre(nombrePasajeroUno, auxNombreUno);
+	Passenger_getNombre(nombrePasajeroDos, auxNombreDos);
+
+	if(strcmp(auxNombreUno, auxNombreDos) == 0)
+	{
+		validacion = 0;
+	}
+	else
+	{
+		if (strcmp(auxNombreUno, auxNombreDos) > 0)
+		{
+			validacion = 1;
+		}
+		else
+		{
+			validacion = -1;
+		}
+	}
+	return validacion;
+}
+
 

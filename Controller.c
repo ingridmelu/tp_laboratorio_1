@@ -248,10 +248,10 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 				Passenger_setEstadoDeVuelo(pasajeroRetocado, estadoDeVueloAux);
 				break;
 			case 7:
-				printf("Salir \n");
+				printf("Volviendo al menu principal\n");
 				break;
 			default:
-				printf("Opcion invalida");
+				printf("Opcion invalida\n");
 		}
 
 	}while(opcionesMenu != 7);
@@ -318,40 +318,41 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger)
  */
 int controller_sortPassenger(LinkedList* pArrayListPassenger)
 {
-		int retorno = 0;
-
-		Node* primero = pArrayListPassenger->pFirstNode;
-		Node* segundo;
-
-		Passenger* primeraVerificacion;
-		Passenger* segundaVerificacion;
-
-		int indxOne;
-		int indxTwo;
-
-		for (primeraVerificacion = primero->pElement; primero != NULL; primero = primero->pNextNode)
-		{
-
-			primeraVerificacion = primero->pElement;
-			if (primero->pNextNode != NULL)
-			{
-				segundo = primero->pNextNode;
-				for (segundaVerificacion = segundo->pElement; segundo != NULL; segundo = segundo->pNextNode)
-				{
-					segundaVerificacion = segundo->pElement;
-					if (primeraVerificacion->id > segundaVerificacion->id)
-					{
-						indxOne = ll_indexOf(pArrayListPassenger, primeraVerificacion);
-						indxTwo = ll_indexOf(pArrayListPassenger, segundaVerificacion);
-						ll_set(pArrayListPassenger, indxOne, segundaVerificacion);
-						ll_set(pArrayListPassenger, indxTwo, primeraVerificacion);
-						retorno = 1;
-					}
-
-				}
-			}
-		}
-		return retorno;
+//		int retorno = 0;
+//
+//		Node* primero = pArrayListPassenger->pFirstNode;
+//		Node* segundo;
+//
+//		Passenger* primeraVerificacion;
+//		Passenger* segundaVerificacion;
+//
+//		int indxOne;
+//		int indxTwo;
+//
+//		for (primeraVerificacion = primero->pElement; primero != NULL; primero = primero->pNextNode)
+//		{
+//
+//			primeraVerificacion = primero->pElement;
+//			if (primero->pNextNode != NULL)
+//			{
+//				segundo = primero->pNextNode;
+//				for (segundaVerificacion = segundo->pElement; segundo != NULL; segundo = segundo->pNextNode)
+//				{
+//					segundaVerificacion = segundo->pElement;
+//					if (primeraVerificacion->id > segundaVerificacion->id)
+//					{
+//						indxOne = ll_indexOf(pArrayListPassenger, primeraVerificacion);
+//						indxTwo = ll_indexOf(pArrayListPassenger, segundaVerificacion);
+//						ll_set(pArrayListPassenger, indxOne, segundaVerificacion);
+//						ll_set(pArrayListPassenger, indxTwo, primeraVerificacion);
+//						retorno = 1;
+//					}
+//				}
+//			}
+//		}
+//		return retorno;
+	ll_sort(pArrayListPassenger, Passenger_compararNombre, 1);
+	return 0;
 
 }
 
@@ -399,17 +400,18 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)
 
 			switch (tipoPasajero)
 			{
-			case 1:
+			case -1:
 				strcpy(tipoPasajeroAux, "economica");
 				break;
-			case 2:
+			case 0:
 				strcpy(tipoPasajeroAux, "ejecutiva");
 				break;
-			case 3:
+			case 1:
 				strcpy(tipoPasajeroAux, "premium");
 				break;
 			default:
-				printf("Error, opcion no valida");
+				printf("%d", tipoPasajero);
+				printf("Error, opcion no valida\n");
 			}
 
 			fprintf(pArchivo, "%d,%s,%s,%f,%s,%s,%s\n", idAux, nombre, apellido, precio,flycode, tipoPasajeroAux, statusFlight);
